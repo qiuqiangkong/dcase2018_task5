@@ -29,7 +29,15 @@ The log mel spectrogram of the scenes are shown below:
 
 The names of the audios are:
 <pre>
-
+No. 0, DevNode1_ex10_1.wav
+No. 1, DevNode1_ex43_1.wav
+No. 2, DevNode1_ex56_1.wav
+No. 3, DevNode1_ex66_1.wav
+No. 4, DevNode1_ex100_1.wav
+No. 5, DevNode1_ex197_1.wav
+No. 6, DevNode1_ex218_1.wav
+No. 7, DevNode1_ex227_1.wav
+No. 8, DevNode1_ex236_1.wav
 </pre>
 
 ## Run the code
