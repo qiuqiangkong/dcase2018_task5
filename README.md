@@ -43,7 +43,24 @@ No. 8, DevNode1_ex236_1.wav
 ## Run the code
 
 **0. Prepare data**
-Download and unzip the data. 
+Download and unzip the data. The data structure should look like:
+<pre>
+.
+├── DCASE2018-task5-dev
+│     ├── audio (72984 audios)
+│     │     └── ...
+│     ├── evaluation_setup
+│     │     └── ...
+│     ├── meta.txt
+│     ...
+└── DCASE2018-task5-eval
+      ├── audio (72972 audios)
+      │     └── ...
+      ├── evaluation_setup
+      │     └── ...
+      ├── meta.txt
+      ...
+</pre>
 
 **1. (Optional) Install dependent packages.** If you are using conda, simply run:
 
