@@ -136,7 +136,7 @@ def train(args):
     classes_num = len(config.labels)
     max_validate_iteration = 100
 
-    # Paths
+    # Use partial data to speed up training
     if mini_data:
         hdf5_path = os.path.join(workspace, 'features', 'logmel', 
                                  'mini_development.h5')
@@ -158,7 +158,7 @@ def train(args):
                              
     if validate:
         models_dir = os.path.join(workspace, 'models', filename, 
-                                'holdout_fold={}'.format(holdout_fold))
+                                'holdout_fold{}'.format(holdout_fold))
                                 
     else:
         models_dir = os.path.join(workspace, 'models', filename, 'full_train')
@@ -210,15 +210,15 @@ def train(args):
 
             # Print info
             logging.info(
-                'iteration: {}, train time: {:.3f} s, validate time: {:.3f} s'
+                'iteration: {}, train time: {:.4f} s, validate time: {:.4f} s'
                 ''.format(iteration, train_time, validate_time))
 
-            logging.info('tr_acc: {:.3f}, tr_f1_score: {:.3f}, tr_loss: {:.3f}'
+            logging.info('tr_acc: {:.4f}, tr_f1_score: {:.4f}, tr_loss: {:.4f}'
                 ''.format(tr_acc, tr_f1_score, tr_loss))
 
             if validate:
-                logging.info('va_acc: {:.3f}, va_f1_score: {:.3f}, '
-                'va_loss: {:.3f}'.format(va_acc, va_f1_score, va_loss))
+                logging.info('va_acc: {:.4f}, va_f1_score: {:.4f}, '
+                'va_loss: {:.4f}'.format(va_acc, va_f1_score, va_loss))
 
             logging.info('------------------------------------')
 
@@ -284,7 +284,7 @@ def inference_validation_data(args):
                                 'fold{}_evaluate.txt'.format(holdout_fold))
                              
     model_path = os.path.join(workspace, 'models', filename, 
-                              'holdout_fold={}'.format(holdout_fold), 
+                              'holdout_fold{}'.format(holdout_fold), 
                               'md_{}_iters.tar'.format(iteration))
                        
     # Model
@@ -317,7 +317,7 @@ def inference_validation_data(args):
     targets = dict['target']
     audio_names = dict['audio_name']
                                               
-    logging.info('Inference time: {:.3f} s'.format(
+    logging.info('Inference time: {:.4f} s'.format(
         time.time() - inference_time))
 
     predictions = np.argmax(outputs, axis=-1)
@@ -328,16 +328,16 @@ def inference_validation_data(args):
     class_wise_f1_score = calculate_f1_score(targets, predictions, average=None)
     
     # Print statistics
-    logging.info('Averaged accuracy: {:.3f}'.format(accuracy))
+    logging.info('Averaged accuracy: {:.4f}'.format(accuracy))
     
     logging.info('{:<30}{}'.format('class_name', 'f1_score'))
     logging.info('---------------------------------------')
     
     for (n, lb) in enumerate(labels):
-        logging.info('{:<30}{:.3f}'.format(lb, class_wise_f1_score[n]))
+        logging.info('{:<30}{:.4f}'.format(lb, class_wise_f1_score[n]))
     
     logging.info('---------------------------------------')
-    logging.info('{:<30}{:.3f}'.format('Average', np.mean(class_wise_f1_score)))    
+    logging.info('{:<30}{:.4f}'.format('Average', np.mean(class_wise_f1_score)))
     
     
 def inference_testing_data(args):
@@ -387,18 +387,21 @@ def inference_testing_data(args):
     # Inference
     inference_time = time.time()
     
-    (outputs, audio_names) = forward(model=model,
-                                              generate_func=generate_func,
-                                              cuda=cuda, 
-                                              return_target=False)
+    dict = forward(model=model,
+                   generate_func=generate_func,
+                   cuda=cuda, 
+                   return_target=False)
+                   
+    outputs = dict['output']
+    audio_names = dict['audio_name']
                                               
-    logging.info('Inference time: {:.3f} s'.format(
+    logging.info('Inference time: {:.4f} s'.format(
         time.time() - inference_time))
 
     predictions = np.argmax(outputs, axis=-1)
 
     # Write out submission file
-    write_testing_data_submission_csv(submission_path, audio_names, audio_names)
+    write_testing_data_submission_csv(submission_path, audio_names, predictions)
     
 
 if __name__ == '__main__':
