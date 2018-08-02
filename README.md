@@ -68,6 +68,8 @@ $ conda env create -f environment.yml
 
 $ conda activate py5_dcase2018_task5
 
+<span style="color:red">(We developed this system with python 3. If you are using pytorch as backend then pytorch 0.4.0 is required.)</span>
+
 **2. Then simply run:**
 
 $ ./runme.sh
@@ -123,6 +125,9 @@ We show the evaluation F1 score trained on the 2, 3 and 4 folds and validated on
 
 ## Summary
 This codebase provides a convolutional neural network (CNN) for DCASE 2018 challenge Task 5. 
+
+## FAQ
+If you met running out of GPU memory error, then try reduce batch_size. 
 
 ### External link
 

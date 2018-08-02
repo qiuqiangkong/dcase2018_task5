@@ -128,7 +128,7 @@ def write_testing_data_submission_csv(submission_path, audio_names, predictions)
     f = open(submission_path, 'w')
 
     for (n, audio_name) in enumerate(audio_names):
-        f.write('{}\t{}\n'.format(audio_name, ix_to_lb[predictions[n]]))
+        f.write('audio/{}\t{}\n'.format(audio_name, ix_to_lb[predictions[n]]))
 
     f.close()
     
